@@ -61,7 +61,8 @@
                     if (confirm("Are you sure?")) {
                         this.$http.delete('/api/v1/jobs/' + id)
                         .then((response) => {
-                            this.job = response.body;
+                            alert("You have successfully deleted the job post!");
+                            location.replace("/");
                         })
                         .catch((err) => {
                             console.log(err);

@@ -16,11 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from jobs.views import index, job_detail
+from jobs.views import index, job_detail, job_add
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("api/", include("jobs.api.urls")),
     path("", index),
-    path("edit/job/<int:pk>/", job_detail)
+    path("edit/job/<int:pk>/", job_detail),
+    path("jobs/add/", job_add)
 ]
