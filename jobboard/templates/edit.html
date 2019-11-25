@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+
+    <div id="app">
+
+        <input type="hidden" id="job_id" value="{{ job_id }}">
+        <h1>Your awesome job post!</h1>
+        <p>Title: ${ job.title }</p>
+        <p>Description: ${ job.description }</p>
+        <p>Company: ${ job.company }</p>
+        <p>Status: ${ job.status }</p>
+        <p>Location Type: ${ job.location_type }</p>
+        <p>Location: ${ job.location }</p>
+        <p>Created at: ${ job.created_at }</p>
+        <p>Updated at: ${ job.updated_at }</p>
+
+        <div class="float-right">
+            <button @click="deleteJob(job_id)">Delete</button>
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.3.5"></script>
+
+    <script type="text/javascript">
+
+        var app = new Vue({
+
+            el: "#app",
+
+            delimiters: ['${','}'],
+
+
+            data: {
+                job_id: document.getElementById("job_id").value,
+                job: []
+            },
+
+            mounted: function() {
+                this.getJob(this.job_id);
+            },
+
+            methods: {
+
+                getJob: function(id) {
+                    this.$http.get('/api/v1/jobs/' + id)
+                    .then((response) => {
+                        this.job = response.body;
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    })
+                },
+
+                deleteJob: function(id) {
+                    if (confirm("Are you sure?")) {
+                        this.$http.delete('/api/v1/jobs/' + id)
+                        .then((response) => {
+                            this.job = response.body;
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                        })
+                    }
+                }
+            }
+
+        });
+
+    </script>
+</body>
+</html>
